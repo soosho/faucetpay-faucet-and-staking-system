@@ -1,0 +1,62 @@
+Header always unset X-Frame-Options
+SetEnv TZ Asia/Jakarta
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Hide .php and .html extensions in the URL for files in any directory
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Redirect URLs with .php or .html extension to the clean version (to avoid duplicate content)
+RewriteCond %{THE_REQUEST} "^[A-Z]{3,9}\ /([^\s]+)\.php\ HTTP/"
+RewriteRule ^(.*)\.php$ /$1 [R=301,L]
+
+RewriteCond %{THE_REQUEST} "^[A-Z]{3,9}\ /([^\s]+)\.html\ HTTP/"
+RewriteRule ^(.*)\.html$ /$1 [R=301,L]
+
+# Custom Error Pages
+ErrorDocument 400 /errors/400.php
+ErrorDocument 401 /errors/401.php
+ErrorDocument 403 /errors/403.php
+ErrorDocument 404 /errors/404.php
+ErrorDocument 500 /errors/500.php
+
+# Make sure to set proper headers for security (optional)
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "ALLOW"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Disable directory listing globally
+Options -Indexes
+
+# Block direct access to specific folders (e.g., images)
+<Directory "/images">
+    Options -Indexes
+    Order Deny,Allow
+    Deny from all
+    # Allow access to image files only (if required)
+    <FilesMatch "\.(jpg|jpeg|png|gif|svg)$">
+        Order Allow,Deny
+        Allow from all
+    </FilesMatch>
+</Directory>
+
+# Block access to other folders if needed
+<Directory "/other-protected-folder">
+    Options -Indexes
+    Deny from all
+</Directory>
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-SSL} !on
+RewriteCond %{HTTP_HOST} ^faucetminehub\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.faucetminehub\.com$
+RewriteRule ^/?$ "https\:\/\/faucetminehub\.com\/" [R=301,L]
+

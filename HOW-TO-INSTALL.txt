@@ -1,0 +1,47 @@
+there is a lot stuff need to changes due the website is likely a newbie who built it
+i have been gather the file that need to be changed.
+
+
+REQUIREMENTS:
+
+PHP 8.2
+Extensions: (MUST ACTIVE)
+INTL
+bcmath
+GD
+ioncube_loader
+
+
+1. config/config.php
+2. deposit.php (just change this to make sure you dint break the code)
+	<input type="hidden" name="merchant_username" value="wepayou"> (your faucetpay username, must have merchant api enabled https://faucetpay.io/merchant)
+	<input type="hidden" name="callback_url" value="https://faucetminehub.com/payment_callback"> (only change the domain)
+    	<input type="hidden" name="success_url" value="https://faucetminehub.com/success"> (only change the domain)
+    	<input type="hidden" name="cancel_url" value="https://faucetminehub.com/cancel"> (only change the domain)
+3. .htaccess (change domain name)
+4. sitemap.xml (use your own)
+5. robots.txt
+6. cron_update_staking.php (change your secter_key on line 6)
+7. HCAPTCHA & RECAPTCHA
+	daily.php line 107 & 453
+	register.php line 44  & 233
+	request_password_reset.php line 9, line 83, line 105 & line 108
+
+import the database, file is on the root directory called as database.sql
+
+
+cron: (THIS IS A MUST FOR UPDATING STAKING AND UPDATE COIN PRICE)
+1. 	https://YOURDOMAIN.com/coingecko.php (5 minute)
+2.	https://YOURDOMAIN.com/cronexp (5 minute)
+3. 	https://YOURDOMAIN.com/cron_update_staking.php?key=#### (1 min, get your key on file cron_update_staking.php line 6)
+
+
+if you dont have 1 minute cron on your hosting, go here : https://cron-job.org/en/
+
+
+if you have no idea about this, feel free to contact me on telegram (https://t.me/foursedev) ill accept your $10 for setting it up HEHE
+
+
+DONATE : faucetpay username: ubimaru (accepting direct transfer <3)
+
+

@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /config/
+Disallow: /scripts/
+Disallow: /temp/
+
+
+Sitemap: https://faucetminehub.com/sitemap.xml
